@@ -46,6 +46,9 @@ export class DocumentalCollection extends BasicStreamableCollection<Documental> 
    * @returns Una lista de docuemtnales que salieron ese año
    */
   busquedaPorAño(numero: number): infoElemento<Documental>[] {
+    if (this.listaElementos.length === 0) {
+      return []
+    }
     return this.listaElementos.filter(elemento => {
       return numero === elemento[0].añoPublicacion
     })
@@ -57,6 +60,7 @@ export class DocumentalCollection extends BasicStreamableCollection<Documental> 
    * @returns Lista de documentales con esa duracion
    */
   busquedaPorDuracion(segundosDuracion: number): infoElemento<Documental>[] {
+    if (this.listaElementos.length === 0) {return []}
     return this.listaElementos.filter(elemento => {
       return segundosDuracion === elemento[0].duracionDocumental
     })
@@ -68,6 +72,9 @@ export class DocumentalCollection extends BasicStreamableCollection<Documental> 
    * @returns Lista de documentales con ese nombre
    */
   busquedaPorNombre(nombre: string): infoElemento<Documental>[] {
+    if (this.listaElementos.length === 0) {
+      return []
+    }
     return this.listaElementos.filter(elemento => {
       return nombre === elemento[0].nombre
     })

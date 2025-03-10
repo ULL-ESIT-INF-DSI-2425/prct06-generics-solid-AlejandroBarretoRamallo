@@ -36,6 +36,9 @@ export class SerieCollection extends BasicStreamableCollection<Serie> {
    * @returns Una lista de docuemtnales que salieron ese año
    */
   busquedaPorAño(numero: number): infoElemento<Serie>[] {
+    if (this.listaElementos.length === 0) {
+      return [] 
+    }
     return this.listaElementos.filter(elemento => {
       return numero === elemento[0].añoPublicacion
     })
@@ -47,6 +50,9 @@ export class SerieCollection extends BasicStreamableCollection<Serie> {
    * @returns Lista de series con esa duracion
    */
   busquedaPorDuracion(segundosDuracion: number): infoElemento<Serie>[] {
+    if (this.listaElementos.length === 0) {
+      return [] 
+    }
     return this.listaElementos.filter(elemento => {
       return segundosDuracion === elemento[0].duracionCapitulos
     })
@@ -58,6 +64,9 @@ export class SerieCollection extends BasicStreamableCollection<Serie> {
    * @returns Lista de series con ese nombre
    */
   busquedaPorNombre(nombre: string): infoElemento<Serie>[] {
+    if (this.listaElementos.length === 0) {
+      return [] 
+    }
     return this.listaElementos.filter(elemento => {
       return nombre === elemento[0].nombre
     })

@@ -1,4 +1,4 @@
-import {Disco} from './discografia'
+import {Disco, Single, Discografia, DiscofrafiaDiscos, DiscografiaMixta, DiscografiaSingles} from './discografia'
 
 
 /**
@@ -15,7 +15,7 @@ export class Artista {
   constructor(
     public readonly nombre: string,
     public readonly numeroOyentes: number,
-    public readonly discografia: Disco[]
+    public readonly discografia: DiscofrafiaDiscos | DiscografiaSingles | DiscografiaMixta
   ) {
     if (numeroOyentes < 0) {
       throw new Error('El número de oyentes no puede ser negativo')

@@ -15,7 +15,7 @@ export class Pelicula {
 /**
  * Representa una coleccion de peliculas
  */
-export class PeliculaCollecton extends BasicStreamableCollection<Pelicula> {
+export class PeliculaCollection extends BasicStreamableCollection<Pelicula> {
   /**
    * 
    * @param listaElementos - Conjunto de peliculas

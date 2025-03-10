@@ -32,5 +32,8 @@
     "typedoc": "^0.27.9",
     "vitest": "^3.0.8",
     "watch": "^0.13.0"
+  },
+  "dependencies": {
+    "@types/node": "^22.13.10"
   }
 }

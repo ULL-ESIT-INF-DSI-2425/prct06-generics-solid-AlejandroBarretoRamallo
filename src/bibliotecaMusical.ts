@@ -1,5 +1,5 @@
 import { Artista } from "./artista";
-import { Disco } from "./discografia";
+import { Disco, DiscofrafiaDiscos, Single , DiscografiaMixta, DiscografiaSingles} from "./discografia";
 import { Cancion } from "./cancion";
 
 /**
@@ -7,11 +7,11 @@ import { Cancion } from "./cancion";
  */
 export interface bibliotecaMusical {
   mostrarBiblioteca(): void,
-  calcularReproducionesDisco(nombreDisco: Disco): number,
-  calcularDuracionDisco(nombreDisco: Disco): number,
-  calcularCancionesEnDisco(nombreDisco: Disco): number,
+  calcularReproducionesDisco(nombreDisco: Disco | Single): number,
+  calcularDuracionDisco(nombreDisco: Disco | Single): number,
+  calcularCancionesEnDisco(nombreDisco: Disco | Single): number,
   busquedaArtista(nombreArtista: string): Artista | undefined,
-  busquedaDisco(nombreDisco: string): Disco | undefined,
+  busquedaDisco(nombreDisco: string): Disco | Single | undefined,
   busquedaCancion(nombreCancion: string): Cancion | undefined,
   añadirArtista(artisa: Artista): void
 }
@@ -40,12 +40,38 @@ export class BibliotecaMusical implements bibliotecaMusical {
       let canciones: string = ''
       this.biblioteca.forEach(artista => {
         let discografia: string = ''
-        artista.discografia.forEach(disco => {
-          discografia += disco.nombre + ', '
-          disco.canciones.forEach(cancion => {
-            canciones += cancion.nombre + ', '
+        if (artista.discografia instanceof DiscofrafiaDiscos) {
+          artista.discografia.discos.forEach(disco => {
+            discografia += disco.nombre + ', '
+            disco.canciones.forEach(cancion => {
+              canciones += cancion.nombre + ', '
+            })
           })
-        })
+        }
+        else if (artista.discografia instanceof DiscografiaSingles) {
+          artista.discografia.discos.forEach(single => {
+            discografia += single.nombre + ', '
+            canciones += single.nombre + ', '
+          })
+        }
+        else if (artista.discografia instanceof DiscografiaMixta) {
+          artista.discografia.discos.forEach(disco => {
+            if (disco instanceof Disco) {
+              discografia += disco.nombre + ', '
+              disco.canciones.forEach(cancion => {
+                canciones += cancion.nombre + ', '
+              })
+            }
+            else if (disco instanceof Single) {
+              discografia += disco.nombre + ', '
+              canciones += disco.nombre + ', '
+            }
+          })
+          artista.discografia.discos.forEach(single => {
+            discografia += single.nombre + ', '
+            canciones += single.nombre + ', '
+          })
+        }
         discografia = discografia.slice(0, -2)
         discos += discografia + ', '
       })
@@ -120,24 +146,79 @@ export class BibliotecaMusical implements bibliotecaMusical {
     })
     if (artistaBuscado !== undefined) {
       let discos: string = ''
-      artistaBuscado.discografia.forEach(disco => {
-        discos += disco.nombre + ', '
-      })
+      if (artistaBuscado.discografia instanceof DiscofrafiaDiscos) {
+        artistaBuscado.discografia.discos.forEach(disco => {
+          discos += disco.nombre + ', '
+        })
+      }
+      else if (artistaBuscado.discografia instanceof DiscografiaSingles) {
+        artistaBuscado.discografia.discos.forEach(single => {
+          discos += single.nombre + ', '
+        })
+      }
+      else if (artistaBuscado.discografia instanceof DiscografiaMixta) {
+        artistaBuscado.discografia.discos.forEach(disco => {
+          if (disco instanceof Disco) {
+            disco.canciones.forEach(cancion => {
+              discos += cancion.nombre + ', '
+            })
+          }
+          else if (disco instanceof Single) {
+            discos += disco.nombre + ', '
+          }
+        })
+      }
       discos = discos.slice(0, -2)
       let canciones: string = ''
-      artistaBuscado.discografia.forEach(disco => {
-        disco.canciones.forEach(cancion => {
-          canciones += cancion.nombre + ', '
+      if (artistaBuscado.discografia instanceof DiscofrafiaDiscos) {
+        artistaBuscado.discografia.discos.forEach(disco => {
+          disco.canciones.forEach(cancion => {
+            canciones += cancion.nombre + ', '
+          })
         })
-      })
+      }
+      else if (artistaBuscado.discografia instanceof DiscografiaSingles) {
+        artistaBuscado.discografia.discos.forEach(single => {
+          canciones += single.nombre + ', '
+        })
+      }
+      else if (artistaBuscado.discografia instanceof DiscografiaMixta) {
+        artistaBuscado.discografia.discos.forEach(disco => {
+          if (disco instanceof Disco) {
+            disco.canciones.forEach(cancion => {
+              canciones += cancion.nombre + ', '
+            })
+          }
+          else if (disco instanceof Single) {
+            canciones += disco.nombre + ', '
+          }
+        })
+      }
       canciones = canciones.slice(0, -2)
       let numeroCanciones: number = 0
-      artistaBuscado.discografia.forEach(disco => {
-        numeroCanciones += disco.canciones.length
-      })
+      if (artistaBuscado.discografia instanceof DiscofrafiaDiscos) {
+        artistaBuscado.discografia.discos.forEach(disco => {
+          numeroCanciones += disco.canciones.length
+        })
+      }
+      else if (artistaBuscado.discografia instanceof DiscografiaSingles) {
+        artistaBuscado.discografia.discos.forEach(single => {
+          numeroCanciones += 1
+        })
+      }
+      else if (artistaBuscado.discografia instanceof DiscografiaMixta) {
+        artistaBuscado.discografia.discos.forEach(disco => {
+          if (disco instanceof Disco) {
+            numeroCanciones += disco.canciones.length
+          }
+          else if (disco instanceof Single) {
+            numeroCanciones += 1
+          }
+        })
+      }
       let datosArtista = {
         nombre: artistaBuscado.nombre,
-        numeroDiscos: artistaBuscado.discografia.length,
+        numeroDiscos: artistaBuscado.discografia.discos.length,
         discos: discos,
         numeroCanciones: numeroCanciones,
         canciones: canciones,
@@ -158,26 +239,52 @@ export class BibliotecaMusical implements bibliotecaMusical {
     if (this.biblioteca.length === 0) {
       return undefined
     }
-    let cancionBuscada: Cancion = this.biblioteca[0].discografia[0].canciones[0]
+    let cancionBuscada = new Cancion("cancion", 0, ["genero"], false, 0)
     this.biblioteca.forEach(artista => {
       if (encontrado) {
         return
       }
-      artista.discografia.forEach(disco => {
-        if (encontrado) {
-          return
-        }
-        disco.canciones.forEach(cancion => {
+      if (artista.discografia instanceof DiscofrafiaDiscos) {
+        artista.discografia.discos.forEach(disco => {
           if (encontrado) {
             return
           }
-          if (cancion.nombre === nombreCancion) {
+          disco.canciones.forEach(cancion => {
+            if (cancion.nombre === nombreCancion) {
+              encontrado = true
+              cancionBuscada = cancion
+              return
+            }
+          })
+        })
+      }
+      else if (artista.discografia instanceof DiscografiaSingles) {
+        artista.discografia.discos.forEach(single => {
+          if (single.nombre === nombreCancion) {
             encontrado = true
-            cancionBuscada = cancion
             return
           }
         })
-      })
+      }
+      else if (artista.discografia instanceof DiscografiaMixta) {
+        artista.discografia.discos.forEach(disco => {
+          if (disco instanceof Disco) {
+            disco.canciones.forEach(cancion => {
+              if (cancion.nombre === nombreCancion) {
+                encontrado = true
+                cancionBuscada = cancion
+                return
+              }
+            })
+          }
+          else if (disco instanceof Single) {
+            if (disco.nombre === nombreCancion) {
+              encontrado = true
+              return
+            }
+          }
+        })
+      }
     })
     if (encontrado) {
       let generos: string = ""
@@ -207,21 +314,20 @@ export class BibliotecaMusical implements bibliotecaMusical {
     if (this.biblioteca.length === 0) {
       return undefined
     }
-    let discoBuscado: Disco = this.biblioteca[0].discografia[0]
+    let discoBuscado: Disco = new Disco("disco", 0, [])
     this.biblioteca.forEach(artista => {
       if (encontrado) {
         return
       }
-      artista.discografia.forEach(disco => {
-        if (encontrado) {
-          return
-        } 
-        if (disco.nombre === nombreDisco) {
-          encontrado = true
-          discoBuscado = disco
-          return
-        }
-      })
+      if (artista.discografia instanceof DiscofrafiaDiscos) {
+        artista.discografia.discos.forEach(disco => {
+          if (disco.nombre === nombreDisco) {
+            encontrado = true
+            discoBuscado = disco
+            return
+          }
+        })
+      }
     })
     if (encontrado) {
       let canciones: string = ""
@@ -256,7 +362,3 @@ export class BibliotecaMusical implements bibliotecaMusical {
     }
   }
 }
-
-let biblioteca = new BibliotecaMusical([new Artista("Bad bunny", 1, [new Disco("x100pre", 2013, [new Cancion("Safaera", 240, ["trap"], true, 10000)])])])
-biblioteca.mostrarBiblioteca()
-
