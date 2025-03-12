@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for cancion.ts</title>
+    <title>Code coverage report for artista.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="prettify.css" />
     <link rel="stylesheet" href="base.css" />
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="index.html">All files</a> cancion.ts</h1>
+        <h1><a href="index.html">All files</a> artista.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/16</span>
+                <span class='fraction'>0/11</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/16</span>
+                <span class='fraction'>0/11</span>
             </div>
         
             
@@ -86,13 +86,9 @@
 <a name='L21'></a><a href='#L21'>21</a>
 <a name='L22'></a><a href='#L22'>22</a>
 <a name='L23'></a><a href='#L23'>23</a>
-<a name='L24'></a><a href='#L24'>24</a>
-<a name='L25'></a><a href='#L25'>25</a>
-<a name='L26'></a><a href='#L26'>26</a>
-<a name='L27'></a><a href='#L27'>27</a>
-<a name='L28'></a><a href='#L28'>28</a>
-<a name='L29'></a><a href='#L29'>29</a>
-<a name='L30'></a><a href='#L30'>30</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L24'></a><a href='#L24'>24</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -104,8 +100,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -115,49 +109,37 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&nbsp;
+<span class="cline-any cline-no">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {Disco, Single, Discografia, DiscofrafiaDiscos, DiscografiaMixta, DiscografiaSingles} from './discografia'
+&nbsp;
+&nbsp;
 /**
- * Class para representar una canción
+ * Clase para representar un artista
  */
-<span class="cstat-no" title="statement not covered" >export class Cancion {</span>
+<span class="cstat-no" title="statement not covered" >export class Artista {</span>
   /**
    * Constructor de la clase
-   * @param nombre - Nombre de la canción
-   * @param duracion - Duración de la canción
-   * @param generos - Géneros de la canción
-   * @param isASingle - Indica si la canción es un single
-   * @param reporducciones - Número de reproducciones de la canción
-   * @throws {Error} - Si la duración o las reproducciones son negativas
+   * @param nombre - Nombre del artista
+   * @param numeroOyentes - Número de oyentes mensuales del artista
+   * @param discografia - Discografía del artista
+   * @throws {Error} - Si el número de oyentes es negativo
    */
 <span class="cstat-no" title="statement not covered" >  constructor(</span>
 <span class="cstat-no" title="statement not covered" >    public readonly nombre: string,</span>
-<span class="cstat-no" title="statement not covered" >    public readonly duracion: number,</span>
-<span class="cstat-no" title="statement not covered" >    public readonly generos: string[],</span>
-<span class="cstat-no" title="statement not covered" >    public readonly isASingle: boolean, </span>
-<span class="cstat-no" title="statement not covered" >    public readonly reporducciones: number</span>
+<span class="cstat-no" title="statement not covered" >    public readonly numeroOyentes: number,</span>
+<span class="cstat-no" title="statement not covered" >    public readonly discografia: DiscofrafiaDiscos | DiscografiaSingles | DiscografiaMixta</span>
 <span class="cstat-no" title="statement not covered" >  ) {</span>
-<span class="cstat-no" title="statement not covered" >    if (duracion &lt; 0) {</span>
-<span class="cstat-no" title="statement not covered" >      throw new Error('La duración de la canción no puede ser negativa')</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >    if (reporducciones &lt; 0) {</span>
-<span class="cstat-no" title="statement not covered" >      throw new Error('Las reproducciones de la canción no pueden ser negativas')</span>
+<span class="cstat-no" title="statement not covered" >    if (numeroOyentes &lt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >      throw new Error('El número de oyentes no puede ser negativo')</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" >}</span>
-&nbsp;</pre></td></tr></table></pre>
+<span class="cstat-no" title="statement not covered" >}</span></pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-03-12T18:52:03.380Z
+                at 2025-03-12T18:52:03.437Z
             </div>
         <script src="prettify.js"></script>
         <script>
