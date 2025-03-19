@@ -1,6 +1,6 @@
-import { Artista } from "./artista";
-import { Disco, DiscofrafiaDiscos, Single , DiscografiaMixta, DiscografiaSingles} from "./discografia";
-import { Cancion } from "./cancion";
+import { Artista } from "./artista.js";
+import { Disco, DiscofrafiaDiscos, Single , DiscografiaMixta, DiscografiaSingles} from "./discografia.js";
+import { Cancion } from "./cancion.js";
 
 /**
  * Interfaz para representar una biblioteca musical

@@ -1,6 +1,6 @@
-import { Serie } from "./Serie"
-import { Pelicula } from "./Pelicula"
-import { Documental } from "./Documental"
+import { Serie } from "./Serie.js"
+import { Pelicula } from "./Pelicula.js"
+import { Documental } from "./Documental.js"
 
 /**
  * Este tipo almacena un objeto de tipo T y su identificador unico

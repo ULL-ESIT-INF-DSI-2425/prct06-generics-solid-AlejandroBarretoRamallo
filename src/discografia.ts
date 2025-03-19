@@ -1,4 +1,4 @@
-import { Cancion } from './cancion'
+import { Cancion } from './cancion.js'
 
 export interface discoInterface {
   nombre: string,

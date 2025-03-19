@@ -1,4 +1,4 @@
-import { BasicStreamableCollection, infoElemento } from './Streamable';
+import { BasicStreamableCollection, infoElemento } from './Streamable.js';
 
 /**
  * Representa una pelicula

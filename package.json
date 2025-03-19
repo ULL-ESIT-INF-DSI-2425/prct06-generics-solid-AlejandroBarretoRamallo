@@ -12,6 +12,7 @@
     "run:ej1": "tsc-watch --onSuccess \"node dist/complejos.js\"",
     "coverage": "vitest run --coverage"
   },
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ULL-ESIT-INF-DSI-2425/prct06-generics-solid-AlejandroBarretoRamallo.git"

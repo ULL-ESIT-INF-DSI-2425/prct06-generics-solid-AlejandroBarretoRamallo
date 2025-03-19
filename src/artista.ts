@@ -1,4 +1,4 @@
-import {Disco, Single, Discografia, DiscofrafiaDiscos, DiscografiaMixta, DiscografiaSingles} from './discografia'
+import {Disco, Single, Discografia, DiscofrafiaDiscos, DiscografiaMixta, DiscografiaSingles} from './discografia.js'
 
 
 /**

@@ -1,9 +1,3 @@
-import { RationalNumber } from "./rationalNumber.js"
-
-/**
- * Representa un numero complejo, el primer numero es la parte rela y el egundo la imaginaria
- */
-export type complex = [number, number]
 
 /**
  * Esta interfaz representa los metodos que todo objeto aritmetico debe tener
@@ -55,61 +49,43 @@ export class ArithmeticableCollection<T extends Arithmeticable<T>> {
 /**
  * Esta clase representa un numero complejo, que a su vez es aritmetico porque implementa arithmeticable
  */
-export class ComplexNumber implements Arithmeticable<ComplexNumber> {
+export class RationalNumber implements Arithmeticable<RationalNumber> {
   /**
    * Constructor de la clase
    * @param complex - Numero complejo
    */
-  constructor(public readonly complex: complex) {}
+  constructor(public readonly numerador: number, public readonly denominador: number) {}
   /**
    * Suma el numero complejo de la clase con otro
    * @param operand1 - Otro numero complejo a sumar
    * @returns La suma de los numeros
    */
-  add(operand1: ComplexNumber): ComplexNumber {
-    return new ComplexNumber([this.complex[0] + operand1.complex[0], this.complex[1] + operand1.complex[1]])
+  add(operand1: RationalNumber): RationalNumber {
+    return new RationalNumber(this.numerador * operand1.denominador + this.denominador * operand1.numerador, operand1.denominador * this.denominador)
   }
   /**
    * Resta el numero complejo de esta clase con otro
    * @param operand1 - Otro numero complejo a restar
    * @returns La resta entre dos nuemros complejos
    */
-  sub(operand1: ComplexNumber): ComplexNumber {
-    return new ComplexNumber([this.complex[0] - operand1.complex[0], this.complex[1] - operand1.complex[1]])
+  sub(operand1: RationalNumber): RationalNumber {
+    return new RationalNumber(this.numerador * operand1.denominador - this.denominador * operand1.numerador, operand1.denominador * this.denominador)
   }
   /**
    * Multiplica el numero complejo de esta clase con otro
    * @param operand1 - Otro numero complejo
    * @returns La multiplicacion de ambos numeros
    */
-  multiply(operand1: ComplexNumber): ComplexNumber {
-    let parteReal = this.complex[0] * operand1.complex[0] + (this.complex[1] * operand1.complex[1])
-    let parteImaginaria = this.complex[0] * operand1.complex[1] + this.complex[1] * operand1.complex[0]
-    return new ComplexNumber([parteReal, parteImaginaria])
+  multiply(operand1: RationalNumber): RationalNumber {
+    return new RationalNumber(this.numerador * operand1.numerador, this.denominador * operand1.denominador)
   }
   /**
    * Divide el numero complejod e la clase por otro 
    * @param operand1 - Otro nuemro complejo a dividir
    * @returns La division, o undefined si alun denoinador se hace 0
    */
-  divide(operand1: ComplexNumber): ComplexNumber | undefined {
-    let parteReal = (this.complex[0] * operand1.complex[0] + (this.complex[1] * operand1.complex[1] * -1))
-    let divisorReal = operand1.complex[0] * operand1.complex[0] + (operand1.complex[1] * operand1.complex[1] * -1)
-    if (divisorReal === 0) {
-      return undefined
-    }
-    parteReal = parteReal / divisorReal
-    let parteImaginaria = (this.complex[0] * (operand1.complex[1] * -1) + this.complex[1] * operand1.complex[0])
-    let divisorImaginario = (this.complex[1] * (operand1.complex[0] * -1) + (this.complex[0] * operand1.complex[1] * -1))
-    return new ComplexNumber([parteReal, parteImaginaria / divisorImaginario])
+  divide(operand1: RationalNumber): RationalNumber | undefined {
+    return new RationalNumber(this.numerador * operand1.denominador, this.denominador * operand1.numerador)
   }
 }
 
-/**
- * This class adapts ComplexNumber to be able to make operations with a rationalNumber
- */
-export class Adapter extends ComplexNumber {
-  constructor(private rational: RationalNumber) {
-    super([rational.numerador / rational.denominador, 0])
-  }
-}
